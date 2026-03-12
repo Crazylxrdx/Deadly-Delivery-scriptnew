@@ -16,4 +16,4 @@ getgenv().ScriptConfig = {
     WalkSpeed = 30
 }
 
-loadstring(game:HttpGet("https://github.com/Crazylxrdx/Deadly-Delivery-scriptnew/blob/main/deadlydelivery.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Crazylxrdx/Deadly-Delivery-scriptnew/refs/heads/main/deadlydelivery.lua"))()
