@@ -15,4 +15,4 @@ getgenv().ScriptConfig = {
     WalkSpeed = 30, -- Changes walkspeed when on dungeon, can only be modified once.
 }
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/SNSDARK/Scripts/refs/heads/main/Deadly%20Delivery.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Crazylxrdx/Deadly-Delivery-scriptnew/refs/heads/main/deadlydelivery.lua"))()
