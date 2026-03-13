@@ -1,4 +1,4 @@
---Webhook
+--Webhook for the script (Optional)
 getgenv().WebhookURL = ""
 
 getgenv().ScriptConfig = {
@@ -16,8 +16,11 @@ getgenv().ScriptConfig = {
     WalkSpeed = 30
 }
 
---farm script
+-- Script principal de farm
 loadstring(game:HttpGet("https://raw.githubusercontent.com/SNSDARK/Scripts/refs/heads/main/Deadly%20Delivery.lua"))()
 
---item auto pickup
+-- Esperar a que el script principal termine de cargar
+task.wait(10)
+
+-- Script para recoger items
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Crazylxrdx/Deadly-Delivery-scriptnew/refs/heads/main/Items.lua"))()
