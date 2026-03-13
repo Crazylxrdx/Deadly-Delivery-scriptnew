@@ -18,7 +18,7 @@ getgenv().ScriptConfig = {
 
 --AUTO LOOT SETTINGS
 getgenv().AutoLoot = true
-getgenv().LootDelay = 0.2
+getgenv().LootDelay = 0.3
 
 task.spawn(function()
 
@@ -35,23 +35,28 @@ task.spawn(function()
 
         local originalPosition = root.CFrame
 
-        for _,v in pairs(workspace:GetDescendants()) do
+        for _,prompt in pairs(workspace:GetDescendants()) do
 
-            if v:IsA("ProximityPrompt") then
+            if prompt:IsA("ProximityPrompt") then
 
-                local part = v.Parent
+                local parent = prompt.Parent
+                local part
 
-                if part and part:IsA("BasePart") then
+                if parent:IsA("BasePart") then
+                    part = parent
+                elseif parent.Parent and parent.Parent:IsA("BasePart") then
+                    part = parent.Parent
+                end
+
+                if part then
 
                     pcall(function()
 
-                        --teleport to item
                         root.CFrame = part.CFrame + Vector3.new(0,3,0)
 
-                        task.wait(0.1)
+                        task.wait(0.15)
 
-                        --pickup
-                        fireproximityprompt(v)
+                        fireproximityprompt(prompt, prompt.HoldDuration)
 
                         task.wait(getgenv().LootDelay)
 
@@ -63,7 +68,6 @@ task.spawn(function()
 
         end
 
-        --return to original position
         root.CFrame = originalPosition
 
     end
