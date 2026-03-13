@@ -1,4 +1,4 @@
---Webhook
+--Webhook for the script (Optional)
 getgenv().WebhookURL = ""
 
 getgenv().ScriptConfig = {
@@ -16,33 +16,16 @@ getgenv().ScriptConfig = {
     WalkSpeed = 30
 }
 
---ITEM PICKUP
-getgenv().ItemPickup = {
-    Enabled = true,
-    Range = 25,
-
-    Items = {
-        "Flashlight",
-        "Bandage",
-        "Cardboard Box",
-        "Revive Syringe",
-        "Bloxy Cola",
-        "Stun Grenade",
-        "Baseball Bat",
-        "Hourglass",
-        "Teleporter",
-        "Z-Ray Gun",
-        "Bio-Scanner",
-        "Shotgun Ammo"
-    }
-}
+--AUTO LOOT SETTINGS
+getgenv().AutoLoot = true
+getgenv().LootDelay = 0.2
 
 task.spawn(function()
 
     local player = game.Players.LocalPlayer
 
-    while getgenv().ItemPickup.Enabled do
-        task.wait(0.4)
+    while getgenv().AutoLoot do
+        task.wait(1)
 
         local char = player.Character
         if not char then continue end
@@ -50,25 +33,41 @@ task.spawn(function()
         local root = char:FindFirstChild("HumanoidRootPart")
         if not root then continue end
 
-        for _,obj in pairs(workspace:GetDescendants()) do
+        local originalPosition = root.CFrame
 
-            if table.find(getgenv().ItemPickup.Items, obj.Name) then
+        for _,v in pairs(workspace:GetDescendants()) do
 
-                local prompt = obj:FindFirstChildOfClass("ProximityPrompt")
+            if v:IsA("ProximityPrompt") then
 
-                if prompt then
-                    local dist = (root.Position - obj.Position).Magnitude
+                local part = v.Parent
 
-                    if dist <= getgenv().ItemPickup.Range then
-                        pcall(function()
-                            fireproximityprompt(prompt)
-                        end)
-                    end
+                if part and part:IsA("BasePart") then
+
+                    pcall(function()
+
+                        --teleport to item
+                        root.CFrame = part.CFrame + Vector3.new(0,3,0)
+
+                        task.wait(0.1)
+
+                        --pickup
+                        fireproximityprompt(v)
+
+                        task.wait(getgenv().LootDelay)
+
+                    end)
+
                 end
 
             end
+
         end
+
+        --return to original position
+        root.CFrame = originalPosition
+
     end
+
 end)
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/SNSDARK/Scripts/refs/heads/main/Deadly%20Delivery.lua"))()
